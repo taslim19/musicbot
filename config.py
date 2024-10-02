@@ -27,7 +27,7 @@ DEEP_API = getenv("DEEP_API","ef488aaf-e253-4cd9-b115-d24ece89a5c7")
 DURATION_LIMIT_MIN = int(getenv("DURATION_LIMIT", 9999999))
 
 # Chat id of a group for logging bot's activities
-LOGGER_ID = int(getenv("LOGGER_ID", -1002097075186))
+LOGGER_ID = "@dragxmusiclogs"
 
 # Get this value from  on Telegram by /id
 OWNER_ID = int(getenv("OWNER_ID", 7099470799))
