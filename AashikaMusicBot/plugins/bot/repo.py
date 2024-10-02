@@ -4,8 +4,8 @@ from AashikaMusicBot import app
 from config import BOT_USERNAME
 
 start_txt = """**
-(っ◔◡◔)っ ♥ ✪ Welcome For AryavartX Repos
-𝙱𝚑𝚊𝚒 𝚁𝚎𝚙𝚘 𝚔𝚎 𝙻𝚒𝚢𝚎 𝚂𝚑𝚊𝚔𝚊𝚕 𝙳𝚎𝚔𝚑𝚒 𝙷𝚊𝚒 𝙺𝚑𝚞𝚍𝚔𝚒 𝙳𝚊𝚏𝚊 𝚑𝚘𝚓𝚊 
+(っ◔◡◔)っ ♥ ✪ Welcome For dragMusicBot
+
 **"""
 
 
@@ -19,8 +19,8 @@ async def start(_, msg):
           InlineKeyboardButton("𝗔𝗗𝗗 𝗠𝗘", url=f"https://t.me/{BOT_USERNAME}?startgroup=true")
         ],
         [
-          InlineKeyboardButton("𝗛𝗘𝗟𝗣", url="https://t.me/Aashyan"),
-          InlineKeyboardButton("𝗢𝗪𝗡𝗘𝗥", url="https://t.me/AryavartX"),
+          InlineKeyboardButton("𝗛𝗘𝗟𝗣", url="https://t.me/updatesdragxmusic"),
+          InlineKeyboardButton("𝗢𝗪𝗡𝗘𝗥", url="https://t.me/dragtf"),
           ],
              
 [
