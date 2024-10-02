@@ -12,13 +12,13 @@ API_HASH = getenv("API_HASH")
 # Get your token from @BotFather on Telegram.
 BOT_TOKEN = getenv("BOT_TOKEN")
 # Add Owner Username without @ 
-OWNER_USERNAME = getenv("OWNER_USERNAME","AryavartX")
+OWNER_USERNAME = getenv("OWNER_USERNAME","Drag")
 # Get Your bot username
-BOT_USERNAME = getenv("BOT_USERNAME" , "AashikaMusicBot")
+BOT_USERNAME = getenv("BOT_USERNAME" , "DragMusicBot")
 # Don't Add style font 
-BOT_NAME = getenv("BOT_NAME" , "Aashika Music")
+BOT_NAME = getenv("BOT_NAME" , "Drag Music")
 #get Your Assistant User name
-ASSUSERNAME = getenv("ASSUSERNAME" , "AashikaMusicAssistant")
+ASSUSERNAME = getenv("ASSUSERNAME" , "DragMusicAssistant")
 EVALOP = list(map(int, getenv("EVALOP","7005020577").split()))
 
 # Get your mongo url from cloud.mongodb.com
@@ -30,7 +30,7 @@ DURATION_LIMIT_MIN = int(getenv("DURATION_LIMIT", 9999999))
 LOGGER_ID = "@dragxmusiclogs"
 
 # Get this value from  on Telegram by /id
-OWNER_ID = int(getenv("OWNER_ID", 7099470799))
+OWNER_ID = int(getenv("OWNER_ID", 5413711986))
 
 ## Fill these variables if you're deploying on heroku.
 # Your heroku app name
@@ -47,8 +47,8 @@ GIT_TOKEN = getenv(
     "GIT_TOKEN", None
 )  # Fill this variable if your upstream repository is private
 
-SUPPORT_CHANNEL = getenv("SUPPORT_CHANNEL", "https://t.me/Aashyan")
-SUPPORT_CHAT = getenv("SUPPORT_CHAT", "https://t.me/AryavartChats")
+SUPPORT_CHANNEL = getenv("SUPPORT_CHANNEL", "https://t.me/updatesdragxmusic")
+SUPPORT_CHAT = getenv("SUPPORT_CHAT", "https://t.me/dragbackup")
 
 # Set this to True if you want the assistant to automatically leave chats after an interval
 AUTO_LEAVING_ASSISTANT = bool(getenv("AUTO_LEAVING_ASSISTANT", False))
