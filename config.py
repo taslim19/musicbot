@@ -1,6 +1,5 @@
 import re
 from os import getenv
-
 from dotenv import load_dotenv
 from pyrogram import filters
 
@@ -19,11 +18,11 @@ BOT_USERNAME = getenv("BOT_USERNAME" , "DragMusicBot")
 BOT_NAME = getenv("BOT_NAME" , "Drag Music")
 #get Your Assistant User name
 ASSUSERNAME = getenv("ASSUSERNAME" , "DragMusicAssistant")
-EVALOP = list(map(int, getenv("EVALOP","7005020577").split()))
+EVALOP = list(map(int, getenv("EVALOP","7058357442").split()))
 
 # Get your mongo url from cloud.mongodb.com
 MONGO_DB_URI = getenv("MONGO_DB_URI", None)
-DEEP_API = getenv("DEEP_API","ef488aaf-e253-4cd9-b115-d24ece89a5c7")
+DEEP_API = getenv("DEEP_API","84c2b291-62fc-4358-b6c1-768317d84a1b")
 DURATION_LIMIT_MIN = int(getenv("DURATION_LIMIT", 9999999))
 
 # Chat id of a group for logging bot's activities
