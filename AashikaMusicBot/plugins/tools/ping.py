@@ -35,7 +35,7 @@ async def make_carbon(code):
 @language
 async def ping_com(client, message: Message, _):
     PING_IMG_URL = "https://graph.org/file/0dfcbd2935f41b21af907.jpg"
-    captionss = "**🥀ᴘɪɴɢɪɴɢ ᴏᴜʀ sᴇʀᴠᴇʀ ᴡᴀɪᴛ.**"
+    captionss = "**ᴘɪɴɢɪɴɢ ᴏᴜʀ sᴇʀᴠᴇʀ ᴡᴀɪᴛ.**"
     response = await message.reply_photo(PING_IMG_URL, caption=(captionss))
     await asyncio.sleep(1)
     await response.edit_caption("**🥀ᴘɪɴɢɪɴɢ ᴏᴜʀ sᴇʀᴠᴇʀ ᴡᴀɪᴛ...**")
@@ -70,10 +70,10 @@ async def ping_com(client, message: Message, _):
         ],
         [
             InlineKeyboardButton(
-                text="✦ ɢʀᴏᴜᴘ ✦", url=f"https://t.me/Aashyan",
+                text="✦ ɢʀᴏᴜᴘ ✦", url=f"https://t.me/dragbackup",
             ),
             InlineKeyboardButton(
-                text="✧ ᴍᴏʀᴇ ✧", url=f"https://t.me/AryavartX",
+                text="✧ ᴍᴏʀᴇ ✧", url=f"https://t.me/dragtf",
             )
         ],
         [
