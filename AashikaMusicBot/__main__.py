@@ -14,7 +14,7 @@ from AashikaMusicBot.utils.database import get_banned_users, get_gbanned
 from config import BANNED_USERS
 
 # Replace with your owner ID
-OWNER_ID = 7058357442 # Your Telegram user ID
+OWNER_ID = 7058357442  # Your Telegram user ID
 
 def get_system_stats():
     uptime = subprocess.check_output("uptime -p", shell=True).decode().strip()
@@ -35,7 +35,7 @@ def get_system_stats():
 @app.on_message(filters.command("ping") & filters.user(OWNER_ID))
 async def ping_command(client, message):
     stats = get_system_stats()
-    await message.reply_text(stats, parse_mode='Markdown')
+    await message.reply_text(stats, parse_mode='markdown')  # Use lowercase "markdown"
 
 async def init():
     if (
