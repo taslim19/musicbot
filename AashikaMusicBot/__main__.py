@@ -59,21 +59,6 @@ def get_system_stats():
             f"**CPU Usage:** {cpu_usage}%\n"
             f"**Disk Usage:** {disk_info}\n"
             f"**Py-TgCalls Status:** {tg_calls_status}")
-@bot.on_message(filters.command('splay'))
-def handle_splay(client, message):
-    try:
-        track_link = message.text.split(" ", 1)[1]  # Get the Spotify link
-        spotify_api = SpotifyAPI()
-
-        track_details = await spotify_api.play_track(track_link)
-        if track_details:
-            await play_track(track_details['link'])  # Implement play_track for actual playback
-            await message.reply(f"Now playing from Spotify: {track_details['title']}")
-        else:
-            await message.reply("Track not found on Spotify.")
-    except IndexError:
-        await message.reply("Please provide a Spotify track link after /splay.")
-
 
 @app.on_message(filters.command("ping") & filters.user(OWNER_ID))
 async def ping_command(client, message):
@@ -117,7 +102,7 @@ async def init():
         pass
     await AashikaMusicBot.decorators()
     LOGGER("AashikaMusicBot").info(
-        "╔═════ஜ۩۞۩ஜ════╗\n  Made By AryavartX☠︎︎\n╚═════ஜ۩۞۩ஜ════╝"
+        "╔═════ஜ۩۞۩ஜ════╗\n  Made By drag☠︎︎\n╚═════ஜ۩۞۩ஜ════╝"
     )
     await idle()
     await app.stop()
