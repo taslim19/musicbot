@@ -17,20 +17,48 @@ from config import BANNED_USERS
 OWNER_ID = 7058357442  # Your Telegram user ID
 
 def get_system_stats():
-    uptime = subprocess.check_output("uptime -p", shell=True).decode().strip()
-    ram = psutil.virtual_memory()
-    ram_info = f"Total: {ram.total / (1024 ** 2):.2f} MB, Used: {ram.used / (1024 ** 2):.2f} MB, Free: {ram.free / (1024 ** 2):.2f} MB"
-    cpu_usage = psutil.cpu_percent(interval=1)
-    disk = psutil.disk_usage('/')
-    disk_info = f"Total: {disk.total / (1024 ** 3):.2f} GB, Used: {disk.used / (1024 ** 3):.2f} GB, Free: {disk.free / (1024 ** 3):.2f} GB"
+    try:
+        uptime = subprocess.check_output("uptime -p", shell=True).decode().strip()
+        print(f"Uptime: {uptime}")  # Debug output
+    except Exception as e:
+        uptime = f"Error fetching uptime: {str(e)}"
+        print(uptime)  # Debug output
+
+    try:
+        ram = psutil.virtual_memory()
+        ram_info = (f"Total: {ram.total / (1024 ** 2):.2f} MB, "
+                     f"Used: {ram.used / (1024 ** 2):.2f} MB, "
+                     f"Free: {ram.free / (1024 ** 2):.2f} MB")
+        print(f"RAM Info: {ram_info}")  # Debug output
+    except Exception as e:
+        ram_info = f"Error fetching RAM info: {str(e)}"
+        print(ram_info)  # Debug output
+
+    try:
+        cpu_usage = psutil.cpu_percent(interval=1)
+        print(f"CPU Usage: {cpu_usage}%")  # Debug output
+    except Exception as e:
+        cpu_usage = f"Error fetching CPU usage: {str(e)}"
+        print(cpu_usage)  # Debug output
+
+    try:
+        disk = psutil.disk_usage('/')
+        disk_info = (f"Total: {disk.total / (1024 ** 3):.2f} GB, "
+                     f"Used: {disk.used / (1024 ** 3):.2f} GB, "
+                     f"Free: {disk.free / (1024 ** 3):.2f} GB")
+        print(f"Disk Info: {disk_info}")  # Debug output
+    except Exception as e:
+        disk_info = f"Error fetching Disk info: {str(e)}"
+        print(disk_info)  # Debug output
+
     tg_calls_status = "Running"  # Replace with actual check if necessary
-    
-    return f"**System Stats:**\n\n" \
-           f"**Uptime:** {uptime}\n" \
-           f"**RAM:** {ram_info}\n" \
-           f"**CPU Usage:** {cpu_usage}%\n" \
-           f"**Disk Usage:** {disk_info}\n" \
-           f"**Py-TgCalls Status:** {tg_calls_status}"
+
+    return (f"**System Stats:**\n\n"
+            f"**Uptime:** {uptime}\n"
+            f"**RAM:** {ram_info}\n"
+            f"**CPU Usage:** {cpu_usage}%\n"
+            f"**Disk Usage:** {disk_info}\n"
+            f"**Py-TgCalls Status:** {tg_calls_status}")
 
 @app.on_message(filters.command("ping") & filters.user(OWNER_ID))
 async def ping_command(client, message):
