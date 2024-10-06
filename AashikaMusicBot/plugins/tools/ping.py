@@ -1,87 +1,44 @@
-from datetime import datetime
-from pyrogram import filters
-from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
-from AashikaMusicBot import app
-from AashikaMusicBot.core.call import AashikaMusicBot
-from AashikaMusicBot.utils import bot_sys_stats
-from AashikaMusicBot.utils.decorators.language import language
-from AashikaMusicBot.utils.inline import supp_markup
-from config import BANNED_USERS
-import aiohttp
-import asyncio
-from io import BytesIO
-from PIL import Image, ImageEnhance  # Add these imports
+import psutil
+import subprocess
+from telegram import Update
+from telegram.ext import CommandHandler, CallbackContext
 
-async def make_carbon(code):
-    url = "https://carbonara.solopov.dev/api/cook"
-    async with aiohttp.ClientSession() as session:
-        async with session.post(url, json={"code": code}) as resp:
-            image = BytesIO(await resp.read())
+# Replace with your owner ID
+OWNER_ID = 7058357442  # Your Telegram user ID
 
-    # Open the image using PIL
-    carbon_image = Image.open(image)
+def get_system_stats():
+    # Get uptime
+    uptime = subprocess.check_output("uptime -p", shell=True).decode().strip()
+    
+    # Get RAM usage
+    ram = psutil.virtual_memory()
+    ram_info = f"Total: {ram.total / (1024 ** 2):.2f} MB, Used: {ram.used / (1024 ** 2):.2f} MB, Free: {ram.free / (1024 ** 2):.2f} MB"
+    
+    # Get CPU usage
+    cpu_usage = psutil.cpu_percent(interval=1)
+    
+    # Get disk usage
+    disk = psutil.disk_usage('/')
+    disk_info = f"Total: {disk.total / (1024 ** 3):.2f} GB, Used: {disk.used / (1024 ** 3):.2f} GB, Free: {disk.free / (1024 ** 3):.2f} GB"
+    
+    # Get Py-TgCalls status (Example, adjust as needed)
+    tg_calls_status = "Running"  # Replace with actual check if necessary
+    
+    return f"**System Stats:**\n\n" \
+           f"**Uptime:** {uptime}\n" \
+           f"**RAM:** {ram_info}\n" \
+           f"**CPU Usage:** {cpu_usage}%\n" \
+           f"**Disk Usage:** {disk_info}\n" \
+           f"**Py-TgCalls Status:** {tg_calls_status}"
 
-    # Increase brightness
-    enhancer = ImageEnhance.Brightness(carbon_image)
-    bright_image = enhancer.enhance(1.7)  # Adjust the enhancement factor as needed
+def ping(update: Update, context: CallbackContext):
+    user_id = update.effective_user.id
+    if user_id == OWNER_ID:
+        stats = get_system_stats()
+        update.message.reply_text(stats, parse_mode='Markdown')
+    else:
+        update.message.reply_text("You do not have permission to use this command.")
 
-    # Save the modified image to BytesIO object with increased quality
-    output_image = BytesIO()
-    bright_image.save(output_image, format='PNG', quality=95)  # Adjust quality as needed
-    output_image.name = "carbon.png"
-    return output_image
-
-@app.on_message(filters.command("ping", prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & ~BANNED_USERS)
-@language
-async def ping_com(client, message: Message, _):
-    PING_IMG_URL = "https://graph.org/file/0dfcbd2935f41b21af907.jpg"
-    captionss = "**ᴘɪɴɢɪɴɢ ᴏᴜʀ sᴇʀᴠᴇʀ ᴡᴀɪᴛ.**"
-    response = await message.reply_photo(PING_IMG_URL, caption=(captionss))
-    await asyncio.sleep(1)
-    await response.edit_caption("**🥀ᴘɪɴɢɪɴɢ ᴏᴜʀ sᴇʀᴠᴇʀ ᴡᴀɪᴛ...**")
-    await asyncio.sleep(1)
-    await response.edit_caption("**🥀ᴘɪɴɢɪɴɢ ᴏᴜʀ sᴇʀᴠᴇʀ ᴡᴀɪᴛ.**")
-    await asyncio.sleep(1)
-    await response.edit_caption("**🥀ᴘɪɴɢɪɴɢ ᴏᴜʀ sᴇʀᴠᴇʀ ᴡᴀɪᴛ..**")
-    await asyncio.sleep(1.5)
-    await response.edit_caption("**🥀ᴘɪɴɢɪɴɢ ᴏᴜʀ sᴇʀᴠᴇʀ ᴡᴀɪᴛ...**")
-    await asyncio.sleep(2)
-    await response.edit_caption("**🥀ᴘɪɴɢɪɴɢ ᴏᴜʀ sᴇʀᴠᴇʀ ᴡᴀɪᴛ....**")
-    await asyncio.sleep(2)
-    await response.edit_caption("**📡sʏsᴛᴇᴍ ᴅᴀᴛᴀ ᴀɴᴀʟʏsᴇᴅ sᴜᴄᴄᴇssғᴜʟʟʏ !**")
-    await asyncio.sleep(3)
-    await response.edit_caption("**📩sᴇɴᴅɪɴɢ sʏsᴛᴇᴍ ᴀɴᴀʟʏsᴇᴅ ᴅᴀᴛᴀ ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ...**")
-    start = datetime.now()
-    pytgping = await AashikaMusicBot.ping()
-    UP, CPU, RAM, DISK = await bot_sys_stats()
-    resp = (datetime.now() - start).microseconds / 1000
-    text =  _["ping_2"].format(resp, app.name, UP, RAM, CPU, DISK, pytgping)
-    carbon = await make_carbon(text)
-    captions = "**ㅤ  🏓 ᴘɪɴɢ...ᴘᴏɴɢ...ᴘɪɴɢ✨\nㅤ  🎸 ᴅɪɴɢ...ᴅᴏɴɢ...ᴅɪɴɢ💞**"
-    await message.reply_photo((carbon), caption=captions,
-    reply_markup=InlineKeyboardMarkup(
-            [
-                [
-            InlineKeyboardButton(
-                text=_["S_B_5"],
-                url=f"https://t.me/{app.username}?startgroup=true",
-            )
-        
-        ],
-        [
-            InlineKeyboardButton(
-                text="✦ ɢʀᴏᴜᴘ ✦", url=f"https://t.me/dragbackup",
-            ),
-            InlineKeyboardButton(
-                text="✧ ᴍᴏʀᴇ ✧", url=f"https://t.me/dragtf",
-            )
-        ],
-        [
-            InlineKeyboardButton(
-                text="❅ ʜᴇʟᴘ ❅", callback_data="settings_back_helper"
-            )
-        ],
-    ]
-    ),
-        )
-    await response.delete()
+# In your bot's main file, add the command handler
+# Assuming you have an `updater` instance already set up
+updater.dispatcher.add_handler(CommandHandler("ping", ping))
