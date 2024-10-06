@@ -60,7 +60,7 @@ def get_system_stats():
             f"**Disk Usage:** {disk_info}\n"
             f"**Py-TgCalls Status:** {tg_calls_status}")
 @bot.on_message(filters.command('splay'))
-async def splay_command(client, message):
+def handle_splay(client, message):
     try:
         track_link = message.text.split(" ", 1)[1]  # Get the Spotify link
         spotify_api = SpotifyAPI()
