@@ -35,7 +35,7 @@ def get_system_stats():
 @app.on_message(filters.command("ping") & filters.user(OWNER_ID))
 async def ping_command(client, message):
     stats = get_system_stats()
-    await message.reply_text(stats, parse_mode='markdown')  # Use lowercase "markdown"
+    await message.reply_text(stats, parse_mode='html')  # Use lowercase "markdown"
 
 async def init():
     if (
