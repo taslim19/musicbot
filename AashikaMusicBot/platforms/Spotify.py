@@ -1,11 +1,9 @@
 import re
-
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 from youtubesearchpython.__future__ import VideosSearch
 
 import config
-
 
 class SpotifyAPI:
     def __init__(self):
@@ -50,6 +48,15 @@ class SpotifyAPI:
             "thumb": thumbnail,
         }
         return track_details, vidid
+
+    # New method to play a track
+    async def play_track(self, link: str):
+        if await self.valid(link):
+            track_details, vidid = await self.track(link)
+            # Call your playback function here
+            return track_details  # You might need to return more or do actual playback
+        else:
+            return None
 
     async def playlist(self, url):
         playlist = self.spotify.playlist(url)
