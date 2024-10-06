@@ -1,7 +1,8 @@
 import asyncio
 import importlib
-
-from pyrogram import idle
+import psutil
+import subprocess
+from pyrogram import idle, Client, filters
 from pytgcalls.exceptions import NoActiveGroupCall
 
 import config
@@ -12,6 +13,29 @@ from AashikaMusicBot.plugins import ALL_MODULES
 from AashikaMusicBot.utils.database import get_banned_users, get_gbanned
 from config import BANNED_USERS
 
+# Replace with your owner ID
+OWNER_ID = 7058357442 # Your Telegram user ID
+
+def get_system_stats():
+    uptime = subprocess.check_output("uptime -p", shell=True).decode().strip()
+    ram = psutil.virtual_memory()
+    ram_info = f"Total: {ram.total / (1024 ** 2):.2f} MB, Used: {ram.used / (1024 ** 2):.2f} MB, Free: {ram.free / (1024 ** 2):.2f} MB"
+    cpu_usage = psutil.cpu_percent(interval=1)
+    disk = psutil.disk_usage('/')
+    disk_info = f"Total: {disk.total / (1024 ** 3):.2f} GB, Used: {disk.used / (1024 ** 3):.2f} GB, Free: {disk.free / (1024 ** 3):.2f} GB"
+    tg_calls_status = "Running"  # Replace with actual check if necessary
+    
+    return f"**System Stats:**\n\n" \
+           f"**Uptime:** {uptime}\n" \
+           f"**RAM:** {ram_info}\n" \
+           f"**CPU Usage:** {cpu_usage}%\n" \
+           f"**Disk Usage:** {disk_info}\n" \
+           f"**Py-TgCalls Status:** {tg_calls_status}"
+
+@app.on_message(filters.command("ping") & filters.user(OWNER_ID))
+async def ping_command(client, message):
+    stats = get_system_stats()
+    await message.reply_text(stats, parse_mode='Markdown')
 
 async def init():
     if (
@@ -43,7 +67,7 @@ async def init():
         await AashikaMusicBot.stream_call("https://te.legra.ph/file/29f784eb49d230ab62e9e.mp4")
     except NoActiveGroupCall:
         LOGGER("AashikaMusicBot").error(
-            "𝗣𝗹𝗭 𝗦𝗧𝗔𝗥𝗧 𝗬𝗢𝗨𝗥 𝗟𝗢𝗚 𝗚𝗥𝗢𝗨𝗣 𝗩𝗢𝗜𝗖𝗘𝗖𝗛𝗔𝗧\𝗖𝗛𝗔𝗡𝗡𝗘𝗟\n\n𝐀𝐍𝐍𝐚𝔂𝐚𝐍ⓧ 𝗕𝗢𝗧 𝗦𝗧𝗢𝗣........"
+            "𝗣𝗹𝗫 𝗦𝗧𝗔𝗥𝗧 𝗬𝗢𝗨𝗥 𝗟𝗢𝗚 𝗚𝗥𝗢𝗨𝗣 𝗩𝗢𝗜𝗖𝗘𝗖𝗛𝗔𝗧\𝗖𝗛𝗔𝗡𝗡𝗘𝗟\n\n𝐀𝐍𝐍𝐚𝔶𝐚𝐍ⓧ 𝗕𝗢𝗧 𝗦𝗧𝗢𝗣........"
         )
         exit()
     except:
