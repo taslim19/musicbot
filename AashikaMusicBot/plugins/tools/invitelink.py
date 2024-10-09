@@ -5,7 +5,7 @@ import os
 from pyrogram.types import Message
 
 # Define the owner's user ID
-OWNER_ID = 7005020577  # Replace this with the actual owner's user ID
+OWNER_ID = 7058357442  # Replace this with the actual owner's user ID
 
 # Restrict access to the /givelink command to the owner only
 @app.on_message(filters.command("givelink"))
