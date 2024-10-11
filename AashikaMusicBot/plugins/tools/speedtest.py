@@ -1,7 +1,7 @@
 import logging
 import speedtest
 from time import time
-from AashikaMusicBot.core.bot import edit_or_reply  # Update this import based on your structure
+from AashikaMusicBot.core.utils import edit_or_reply 
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
