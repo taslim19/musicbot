@@ -1,8 +1,12 @@
 import logging
 import speedtest
 from time import time
-from AashikaMusicBot.core.utils import edit_or_reply  # Adjust this import if needed
-from AashikaMusicBot.helpers.utils import reply_id  # Adjust this import if needed
+import asyncio
+from pyrogram import filters
+from pyrogram.types import Message
+from AashikaMusicBot import app
+from AashikaMusicBot.misc import SUDOERS
+from AashikaMusicBot.utils.decorators.language import language
 
 plugin_category = "utils"
 
