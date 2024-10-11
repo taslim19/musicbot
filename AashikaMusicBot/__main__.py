@@ -13,12 +13,15 @@ from AashikaMusicBot.misc import sudo
 from AashikaMusicBot.plugins import ALL_MODULES
 from AashikaMusicBot.utils.database import get_banned_users, get_gbanned
 from AashikaMusicBot.plugins.tools.speedtest import speedtest_command 
- dispatcher.add_handler(CommandHandler('speedtest', speedtest_command))
 from config import BANNED_USERS
 
 # Replace with your owner ID
 OWNER_ID = 7058357442  # Your Telegram user ID
 
+def main():
+    # Initialization and setup code
+    dispatcher.add_handler(CommandHandler('speedtest', speedtest_command))
+ 
 def get_system_stats():
     try:
         uptime = subprocess.check_output("uptime -p", shell=True).decode().strip()
