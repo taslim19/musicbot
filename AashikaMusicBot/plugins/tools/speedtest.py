@@ -1,16 +1,13 @@
 import logging
 import speedtest
 from time import time
-import asyncio
-from pyrogram import filters
-from pyrogram.types import Message
-from AashikaMusicBot import app
-from AashikaMusicBot.misc import SUDOERS
-from AashikaMusicBot.utils.decorators.language import language
+from AashikaMusicBot.helpers import edit_or_reply  # Adjust this import if needed
 
-plugin_category = "utils"
+# Set up logging
+logging.basicConfig(level=logging.INFO)
 
 def convert_from_bytes(size):
+    """Convert bytes to a more readable format."""
     power = 2**10
     n = 0
     units = {0: "", 1: "Kbps", 2: "Mbps", 3: "Gbps", 4: "Tbps"}
@@ -19,81 +16,60 @@ def convert_from_bytes(size):
         n += 1
     return f"{round(size, 2)} {units[n]}"
 
-# Replace this with your actual command handler
 async def speedtest_command(update, context):
+    """Handle the speed test command."""
+    logging.info("Speed test command received")
+
     input_str = context.args[0] if context.args else ""
-    as_text = False
-    as_document = False
-    if input_str == "file":
-        as_document = True
-    elif input_str == "image":
-        as_document = False
-    elif input_str == "text":
-        as_text = True
-    
+    logging.info(f"Input string: {input_str}")
+
+    as_text = input_str == "text"
+    as_document = input_str == "file"
+
     catevent = await edit_or_reply(update, "`Calculating my internet speed. Please wait!`")
     start = time()
-    s = speedtest.Speedtest()
-    s.get_best_server()
-    s.download()
-    s.upload()
-    end = time()
-    ms = round(end - start, 2)
-    response = s.results.dict()
-    download_speed = response.get("download")
-    upload_speed = response.get("upload")
-    ping_time = response.get("ping")
-    client_infos = response.get("client")
-    i_s_p = client_infos.get("isp")
-    i_s_p_rating = client_infos.get("isprating")
-    reply_msg_id = await reply_id(update)
 
     try:
-        speedtest_image = s.results.share()
+        logging.info("Initializing speed test")
+        s = speedtest.Speedtest()
+        logging.info("Getting best server")
+        s.get_best_server()
+
+        logging.info("Starting download test")
+        download_speed = s.download()
+        logging.info("Starting upload test")
+        upload_speed = s.upload()
+
+        end = time()
+        ms = round(end - start, 2)
+
+        logging.info(f"Download Speed: {download_speed}")
+        logging.info(f"Upload Speed: {upload_speed}")
+
+        response = s.results.dict()
+        ping_time = response.get("ping")
+        client_infos = response.get("client")
+        i_s_p = client_infos.get("isp")
+        i_s_p_rating = client_infos.get("isprating")
+
         if as_text:
             await catevent.edit(
-                """`SpeedTest completed in {} seconds`
-
-`Download: {} (or) {} MB/s`
-`Upload: {} (or) {} MB/s`
-`Ping: {} ms`
-`Internet Service Provider: {}`
-`ISP Rating: {}`""".format(
-                    ms,
-                    convert_from_bytes(download_speed),
-                    round(download_speed / 8e6, 2),
-                    convert_from_bytes(upload_speed),
-                    round(upload_speed / 8e6, 2),
-                    ping_time,
-                    i_s_p,
-                    i_s_p_rating,
-                )
+                f"`SpeedTest completed in {ms} seconds`\n"
+                f"`Download: {convert_from_bytes(download_speed)}`\n"
+                f"`Upload: {convert_from_bytes(upload_speed)}`\n"
+                f"`Ping: {ping_time} ms`\n"
+                f"`ISP: {i_s_p}`\n"
+                f"`ISP Rating: {i_s_p_rating}`"
             )
         else:
+            speedtest_image = s.results.share()
             await update.message.reply_photo(
                 photo=speedtest_image,
-                caption=f"**SpeedTest** completed in {ms} seconds",
-                reply_to_message_id=reply_msg_id
+                caption=f"**SpeedTest** completed in {ms} seconds"
             )
 
-            await update.message.delete()
     except Exception as exc:
-        await catevent.edit(
-            """**SpeedTest** completed in {} seconds
-Download: {} (or) {} MB/s
-Upload: {} (or) {} MB/s
-Ping: {} ms
+        logging.error(f"Error during speed test: {str(exc)}")
+        await catevent.edit(f"An error occurred: {str(exc)}")
 
-__With the Following ERRORs__
-{}""".format(
-                ms,
-                convert_from_bytes(download_speed),
-                round(download_speed / 8e6, 2),
-                convert_from_bytes(upload_speed),
-                round(upload_speed / 8e6, 2),
-                ping_time,
-                str(exc),
-            )
-        )
-
-# Make sure to register this command in your bot's command handler
+# Ensure to register the command in your bot's main script
