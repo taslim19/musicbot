@@ -1,10 +1,8 @@
 import logging
 import speedtest
-import asyncio
 from time import time
-from AashikaMusicBot import app
-from AashikaMusicBot.misc import SUDOERS
-from AashikaMusicBot.utils.decorators.language import language
+from AashikaMusicBot.core.utils import edit_or_reply  # Adjust this import if needed
+from AashikaMusicBot.helpers.utils import reply_id  # Adjust this import if needed
 
 plugin_category = "utils"
 
@@ -17,31 +15,19 @@ def convert_from_bytes(size):
         n += 1
     return f"{round(size, 2)} {units[n]}"
 
-@catub.cat_cmd(
-    pattern="speedtest(?:\s|$)([\s\S]*)",
-    command=("speedtest", plugin_category),
-    info={
-        "header": "Speedtest for your bot.",
-        "options": {
-            "text": "will give output as text.",
-            "image": "will give output as image (default).",
-            "file": "will give output as PNG file.",
-        },
-        "usage": ["{tr}speedtest <option>", "{tr}speedtest"],
-    },
-)
-async def speedtest_command(event):
-    """Speedtest for your bot."""
-    input_str = event.pattern_match.group(1)
+# Replace this with your actual command handler
+async def speedtest_command(update, context):
+    input_str = context.args[0] if context.args else ""
     as_text = False
     as_document = False
-
     if input_str == "file":
         as_document = True
+    elif input_str == "image":
+        as_document = False
     elif input_str == "text":
         as_text = True
-
-    catevent = await edit_or_reply(event, "`Calculating internet speed. Please wait!`")
+    
+    catevent = await edit_or_reply(update, "`Calculating my internet speed. Please wait!`")
     start = time()
     s = speedtest.Speedtest()
     s.get_best_server()
@@ -50,24 +36,24 @@ async def speedtest_command(event):
     end = time()
     ms = round(end - start, 2)
     response = s.results.dict()
-
     download_speed = response.get("download")
     upload_speed = response.get("upload")
     ping_time = response.get("ping")
     client_infos = response.get("client")
     i_s_p = client_infos.get("isp")
     i_s_p_rating = client_infos.get("isprating")
-    reply_msg_id = await reply_id(event)
+    reply_msg_id = await reply_id(update)
 
     try:
         speedtest_image = s.results.share()
         if as_text:
             await catevent.edit(
                 """`SpeedTest completed in {} seconds`
+
 `Download: {} (or) {} MB/s`
 `Upload: {} (or) {} MB/s`
 `Ping: {} ms`
-`ISP: {}`
+`Internet Service Provider: {}`
 `ISP Rating: {}`""".format(
                     ms,
                     convert_from_bytes(download_speed),
@@ -80,15 +66,13 @@ async def speedtest_command(event):
                 )
             )
         else:
-            await event.client.send_file(
-                event.chat_id,
-                speedtest_image,
+            await update.message.reply_photo(
+                photo=speedtest_image,
                 caption=f"**SpeedTest** completed in {ms} seconds",
-                force_document=as_document,
-                reply_to=reply_msg_id,
-                allow_cache=False,
+                reply_to_message_id=reply_msg_id
             )
-            await event.delete()
+
+            await update.message.delete()
     except Exception as exc:
         await catevent.edit(
             """**SpeedTest** completed in {} seconds
@@ -107,3 +91,5 @@ __With the Following ERRORs__
                 str(exc),
             )
         )
+
+# Make sure to register this command in your bot's command handler
