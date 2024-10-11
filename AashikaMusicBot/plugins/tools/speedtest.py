@@ -1,11 +1,12 @@
 import logging
 import speedtest
+import asyncio
 from time import time
-from AashikaMusicBot import plugins # Adjust this import based on your structure
-from AashikaMusicBot.core.tools import edit_or_reply  # Example adjustment
-from AashikaMusicBot.helpers.tools import reply_id
+from AashikaMusicBot import app
+from AashikaMusicBot.misc import SUDOERS
+from AashikaMusicBot.utils.decorators.language import language
 
-plugin_category = "tools"
+plugin_category = "utils"
 
 def convert_from_bytes(size):
     power = 2**10
