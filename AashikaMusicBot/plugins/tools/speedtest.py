@@ -2,8 +2,8 @@ import logging
 import speedtest
 from time import time
 from AashikaMusicBot import plugins # Adjust this import based on your structure
-from AashikaMusicBot.core.managers import edit_or_reply  # Ensure this is correct
-from AashikaMusicBot.helpers.utils import reply_id  # Ensure this is correct
+from AashikaMusicBot.core.utils import edit_or_reply  # Example adjustment
+from AashikaMusicBot.helpers.utils import reply_id
 
 plugin_category = "utils"
 
