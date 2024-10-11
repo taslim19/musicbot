@@ -2,10 +2,10 @@ import logging
 import speedtest
 from time import time
 from AashikaMusicBot import plugins # Adjust this import based on your structure
-from AashikaMusicBot.core.utils import edit_or_reply  # Example adjustment
-from AashikaMusicBot.helpers.utils import reply_id
+from AashikaMusicBot.core.tools import edit_or_reply  # Example adjustment
+from AashikaMusicBot.helpers.tools import reply_id
 
-plugin_category = "utils"
+plugin_category = "tools"
 
 def convert_from_bytes(size):
     power = 2**10
