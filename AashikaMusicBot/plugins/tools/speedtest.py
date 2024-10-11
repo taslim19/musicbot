@@ -7,7 +7,11 @@ from telegram.ext import CommandHandler, CallbackContext
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
-def speedtest_command(update: Update, context: CallbackContext) -> None:
+
+    def speedtest_command(update: Update, context: CallbackContext) -> None:
+    logging.info("Speedtest command triggered.")
+    # Rest of the code...
+
     # Your speedtest logic here
     st = speedtest.Speedtest()
     st.download()
