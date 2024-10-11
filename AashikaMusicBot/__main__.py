@@ -12,7 +12,7 @@ from AashikaMusicBot.core.call import AashikaMusicBot
 from AashikaMusicBot.misc import sudo
 from AashikaMusicBot.plugins import ALL_MODULES
 from AashikaMusicBot.utils.database import get_banned_users, get_gbanned
-from AashikaMusicBot.plugins.tools.speedtest import speedtest_command
+from AashikaMusicBot.plugins.tools.speedtest import speedtest_command 
  dispatcher.add_handler(CommandHandler('speedtest', speedtest_command))
 from config import BANNED_USERS
 
