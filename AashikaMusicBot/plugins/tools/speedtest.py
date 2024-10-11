@@ -1,45 +1,43 @@
-import asyncio
-
+import logging
 import speedtest
-from pyrogram import filters
-from pyrogram.types import Message
+import matplotlib.pyplot as plt
+import numpy as np
+from io import BytesIO
+from telegram import Update
+from telegram.ext import CommandHandler, CallbackContext
 
-from AashikaMusicBot import app
-from AashikaMusicBot.misc import SUDOERS
-from AashikaMusicBot.utils.decorators.language import language
+# Enable logging
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
+# Define a command handler for the /speedtest command
+def speedtest_command(update: Update, context: CallbackContext) -> None:
+    # Perform speed test
+    st = speedtest.Speedtest()
+    st.download()
+    st.upload()
+    st.get_best_server()
+    
+    download_speed = st.results.download / 1_000_000  # Convert to Mbps
+    upload_speed = st.results.upload / 1_000_000      # Convert to Mbps
 
-def testspeed(m, _):
-    try:
-        test = speedtest.Speedtest()
-        test.get_best_server()
-        m = m.edit_text(_["server_12"])
-        test.download()
-        m = m.edit_text(_["server_13"])
-        test.upload()
-        test.results.share()
-        result = test.results.dict()
-        m = m.edit_text(_["server_14"])
-    except Exception as e:
-        return m.edit_text(f"<code>{e}</code>")
-    return result
+    # Create a plot
+    speeds = [download_speed, upload_speed]
+    labels = ['Download Speed', 'Upload Speed']
+    
+    fig, ax = plt.subplots()
+    ax.bar(labels, speeds, color=['blue', 'orange'])
+    ax.set_ylim(0, max(speeds) * 1.2)
+    ax.set_ylabel('Speed (Mbps)')
+    ax.set_title('Internet Speed Test Results')
+    
+    # Save the plot to a BytesIO object
+    buf = BytesIO()
+    plt.savefig(buf, format='png')
+    plt.close(fig)
+    buf.seek(0)
 
+    # Send the image
+    update.message.reply_photo(photo=buf)
 
-@app.on_message(filters.command(["speedtest", "spt"], prefixes=["/", "!", "%", ",", "", ".", "@", "#"]) & SUDOERS)
-@language 
-async def speedtest_function(client, message: Message, _):
-    m = await message.reply_text(_["server_11"])
-    loop = asyncio.get_event_loop()
-    result = await loop.run_in_executor(None, testspeed, m, _)
-    output = _["server_15"].format(
-        result["client"]["isp"],
-        result["client"]["country"],
-        result["server"]["name"],
-        result["server"]["country"],
-        result["server"]["cc"],
-        result["server"]["sponsor"],
-        result["server"]["latency"],
-        result["ping"],
-    )
-    msg = await message.reply_photo(photo=result["share"], caption=output)
-    await m.delete()
+# Add this handler to your existing bot's dispatcher
+dispatcher.add_handler(CommandHandler('speedtest', speedtest_command))
