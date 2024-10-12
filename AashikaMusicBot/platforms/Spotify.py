@@ -1,13 +1,9 @@
+import logging
 import re
 import spotipy
-import logging
 from spotipy.oauth2 import SpotifyClientCredentials
 from youtubesearchpython.__future__ import VideosSearch
-
 import config
-
-# Set up logging
-logging.basicConfig(level=logging.INFO)
 
 class SpotifyAPI:
     def __init__(self):
@@ -53,8 +49,7 @@ class SpotifyAPI:
         }
         return track_details, vidid
 
-    # New method to play a track
-  async def play_track(self, link: str):
+    async def play_track(self, link: str):
         logging.info(f"Received link: {link}")
         if await self.valid(link):
             track_details, vidid = await self.track(link)
@@ -64,7 +59,6 @@ class SpotifyAPI:
         else:
             logging.warning(f"Invalid link: {link}")
             return None
-
 
     async def playlist(self, url):
         playlist = self.spotify.playlist(url)
@@ -92,10 +86,7 @@ class SpotifyAPI:
                     info += fetched
             results.append(info)
 
-        return (
-            results,
-            album_id,
-        )
+        return results, album_id
 
     async def artist(self, url):
         artistinfo = self.spotify.artist(url)
