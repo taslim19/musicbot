@@ -4,8 +4,7 @@ from pyrogram import Client, errors
 from pyrogram.enums import ChatMemberStatus, ParseMode
 
 import config
-
-from ..custom_logging import LOGGER
+from ..logging import LOGGER
 
 
 class AashikaMusicBot(Client):
