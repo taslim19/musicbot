@@ -7,7 +7,7 @@ from git.exc import GitCommandError, InvalidGitRepositoryError
 
 import config
 
-from ..custom_logging import LOGGER
+from ..logging import LOGGER
 
 
 
