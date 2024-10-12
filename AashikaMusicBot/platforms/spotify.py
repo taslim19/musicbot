@@ -66,8 +66,7 @@ class SpotifyAPI:
 
     async def start_playback(self, track_details):
         """Start playing the provided track details."""
-        # Your playback logic here
-        pass  # Replace with actual implementation
+        # Implement your playback logic here
 
     async def playlist(self, url):
         """Fetch tracks from a Spotify playlist."""
