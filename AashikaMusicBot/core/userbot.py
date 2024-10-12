@@ -1,7 +1,7 @@
 from pyrogram import Client
 
 import config
-from ..custom_logging import LOGGER
+from ..logging import LOGGER
 
 assistants = []
 assistantids = []
