@@ -51,12 +51,14 @@ class SpotifyAPI:
 
     # New method to play a track
     async def play_track(self, link: str):
-        if await self.valid(link):
-            track_details, vidid = await self.track(link)
-            # Call your playback function here
-            return track_details  # You might need to return more or do actual playback
-        else:
-            return None
+    if await self.valid(link):
+        track_details, vidid = await self.track(link)
+        # Here you need to integrate with your playback system
+        await self.start_playback(track_details)  # Replace with your playback function
+        return track_details
+    else:
+        return None
+
 
     async def playlist(self, url):
         playlist = self.spotify.playlist(url)
