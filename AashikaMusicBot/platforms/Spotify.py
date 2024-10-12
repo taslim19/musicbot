@@ -6,11 +6,14 @@ from youtubesearchpython.__future__ import VideosSearch
 import config
 
 class SpotifyAPI:
+    """Class to interact with the Spotify API for music playback."""
+
     def __init__(self):
+        """Initialize Spotify API client."""
         self.regex = r"^(https:\/\/open.spotify.com\/)(.*)$"
         self.client_id = config.SPOTIFY_CLIENT_ID
         self.client_secret = config.SPOTIFY_CLIENT_SECRET
-        if config.SPOTIFY_CLIENT_ID and config.SPOTIFY_CLIENT_SECRET:
+        if self.client_id and self.client_secret:
             self.client_credentials_manager = SpotifyClientCredentials(
                 self.client_id, self.client_secret
             )
@@ -21,12 +24,11 @@ class SpotifyAPI:
             self.spotify = None
 
     async def valid(self, link: str):
-        if re.search(self.regex, link):
-            return True
-        else:
-            return False
+        """Validate if the link is a valid Spotify URL."""
+        return bool(re.search(self.regex, link))
 
     async def track(self, link: str):
+        """Fetch track details from Spotify."""
         track = self.spotify.track(link)
         info = track["name"]
         for artist in track["artists"]:
@@ -50,15 +52,15 @@ class SpotifyAPI:
         return track_details, vidid
 
     async def play_track(self, link: str):
-        logging.info(f"Received link: {link}")
+        """Play a track from the provided Spotify link."""
+        logging.info("Received link: %s", link)
         if await self.valid(link):
-            track_details, vidid = await self.track(link)
-            logging.info(f"Playing track: {track_details}")
-            await self.start_playback(track_details)  # Your playback function
+            track_details, _ = await self.track(link)
+            logging.info("Playing track: %s", track_details)
+            await self.start_playback(track_details)  # Ensure this method exists
             return track_details
-        else:
-            logging.warning(f"Invalid link: {link}")
-            return None
+        logging.warning("Invalid link: %s", link)
+        return None
 
     async def playlist(self, url):
         playlist = self.spotify.playlist(url)
