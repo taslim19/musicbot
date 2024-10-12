@@ -1,3 +1,5 @@
+"""Module for Spotify API integration to manage music playback."""
+
 import logging
 import re
 import spotipy
@@ -62,7 +64,13 @@ class SpotifyAPI:
         logging.warning("Invalid link: %s", link)
         return None
 
+    async def start_playback(self, track_details):
+        """Start playing the provided track details."""
+        # Your playback logic here
+        pass  # Replace with actual implementation
+
     async def playlist(self, url):
+        """Fetch tracks from a Spotify playlist."""
         playlist = self.spotify.playlist(url)
         playlist_id = playlist["id"]
         results = []
@@ -77,6 +85,7 @@ class SpotifyAPI:
         return results, playlist_id
 
     async def album(self, url):
+        """Fetch tracks from a Spotify album."""
         album = self.spotify.album(url)
         album_id = album["id"]
         results = []
@@ -91,6 +100,7 @@ class SpotifyAPI:
         return results, album_id
 
     async def artist(self, url):
+        """Fetch top tracks for a Spotify artist."""
         artistinfo = self.spotify.artist(url)
         artist_id = artistinfo["id"]
         results = []
