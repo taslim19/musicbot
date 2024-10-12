@@ -7,8 +7,7 @@ from pyrogram import filters
 import config
 from AashikaMusicBot.core.mongo import mongodb
 
-from .custom_logging import LOGGER
-
+from .logging import LOGGER
 
 SUDOERS = filters.user()
 
