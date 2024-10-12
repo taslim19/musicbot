@@ -1,5 +1,5 @@
 import os
-from ..custom_logging import LOGGER
+from ..logging import LOGGER
 
 
 
