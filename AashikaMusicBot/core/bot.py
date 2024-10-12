@@ -3,7 +3,7 @@ from pyrogram.enums import ChatMemberStatus, ParseMode
 
 import config
 
-from ..logging import LOGGER
+from ..custom_logging import LOGGER
 
 
 class AashikaMusicBot(Client):
