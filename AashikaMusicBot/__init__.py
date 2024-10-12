@@ -8,6 +8,8 @@ from .spotify import SpotifyAPI
 from SafoneAPI import SafoneAPI
 from .logging import LOGGER
 
+from .platforms import *
+
 dirr()
 git()
 dbb()
@@ -18,7 +20,7 @@ api = SafoneAPI()
 userbot = Userbot()
 
 
-from .platforms import *
+
 
 Apple = AppleAPI()
 Carbon = CarbonAPI()
