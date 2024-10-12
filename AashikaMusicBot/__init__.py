@@ -3,6 +3,7 @@ from AashikaMusicBot.core.dir import dirr
 from AashikaMusicBot.core.git import git
 from AashikaMusicBot.core.userbot import Userbot
 from AashikaMusicBot.misc import dbb, heroku
+from .spotify import SpotifyAPI
 
 from SafoneAPI import SafoneAPI
 from .logging import LOGGER
