@@ -54,16 +54,16 @@ class SpotifyAPI:
         return track_details, vidid
 
     # New method to play a track
-   async def play_track(self, link: str):
-    logging.info(f"Received link: {link}")
-    if await self.valid(link):
-        track_details, vidid = await self.track(link)
-        logging.info(f"Playing track: {track_details}")
-        await self.start_playback(track_details)  # Your playback function
-        return track_details
-    else:
-        logging.warning(f"Invalid link: {link}")
-        return None
+  async def play_track(self, link: str):
+        logging.info(f"Received link: {link}")
+        if await self.valid(link):
+            track_details, vidid = await self.track(link)
+            logging.info(f"Playing track: {track_details}")
+            await self.start_playback(track_details)  # Your playback function
+            return track_details
+        else:
+            logging.warning(f"Invalid link: {link}")
+            return None
 
 
     async def playlist(self, url):
