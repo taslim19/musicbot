@@ -1,6 +1,5 @@
 import asyncio
 import speedtest
-import logging
 from pyrogram import filters
 from pyrogram.types import Message
 
@@ -8,8 +7,6 @@ from AashikaMusicBot import app
 from AashikaMusicBot.misc import SUDOERS
 from AashikaMusicBot.utils.decorators.language import language
 
-#logging        
-logging.basicConfig(level=logging.DEBUG)
 
 
 
@@ -51,5 +48,3 @@ async def speedtest_function(client, message: Message, _):
         await m.edit_text(result)  # Edit the initial message to show error
     await m.delete()  # Delete the initial message
 
-test = speedtest.Speedtest()
-print(test.get_best_server())
