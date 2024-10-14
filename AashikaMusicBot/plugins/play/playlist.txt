@@ -1,7 +1,7 @@
 import os
 import requests
 from random import randint
-from AnnayanX.utils.database import (
+from AashikaMusicBot.utils.database import (
     add_served_chat,
     add_served_user,
     blacklisted_chats,
@@ -14,24 +14,22 @@ from pykeyboard import InlineKeyboard
 from pyrogram import filters
 from pyrogram.types import (InlineKeyboardButton, CallbackQuery,
                             InlineKeyboardMarkup, Message)
-from AnnayanX.utils import close_markup
+from AashikaMusicBot.utils import close_markup
 from config import BANNED_USERS, SERVER_PLAYLIST_LIMIT
-from AnnayanX import Carbon, YouTube, app
-from AnnayanX.utils.decorators.language import language, languageCB
-from AnnayanX.utils.inline.playlist import (botplaylist_markup,
-                                              get_playlist_markup,
-                                              warning_markup)
-from AnnayanX.utils.pastebin import AnnayanXBin
+from AashikaMusicBot import Carbon, YouTube, app
+from AashikaMusicBot.utils.decorators.language import language, languageCB
+from AashikaMusicBot.utils.inline.playlist import (botplaylist_markup,get_playlist_markup,warning_markup)
+from AashikaMusicBot.utils.pastebin import AnnayanXBin
 import time
 import yt_dlp
 from youtube_search import YoutubeSearch
 from youtubesearchpython import VideosSearch
 from youtubesearchpython import SearchVideos
 
-from AnnayanX.utils.stream.stream import stream
+from AashikaMusicBot.utils.stream.stream import stream
 from typing import Dict, List, Union
 
-from AnnayanX.core.mongo import mongodb
+from AashikaMusicBot.core.mongo import mongodb
 
 playlistdb = mongodb.playlist
 playlist = []
@@ -232,7 +230,7 @@ import json
 @language
 async def add_playlist(client, message: Message, _):
     if len(message.command) < 2:
-        return await message.reply_text("**➻ ᴘʟᴇᴀsᴇ ᴘʀᴏᴠɪᴅᴇ ᴍᴇ ᴀ sᴏɴɢ ᴀғᴛᴇʀ ᴄᴏᴍᴍᴀɴᴅ**\n\n**➥ ʟɪᴋᴇ :-** `/addplaylist Aye Mere Dil`")
+        return await message.reply_text("**➻ ᴘʟᴇᴀsᴇ ᴘʀᴏᴠɪᴅᴇ ᴍᴇ ᴀ sᴏɴɢ ᴀғᴛᴇʀ ᴄᴏᴍᴍᴀɴᴅ**\n\n**➥ ʟɪᴋᴇ :-** `/addplaylist aval`")
 
     query = " ".join(message.command[1:])
     print(query)
