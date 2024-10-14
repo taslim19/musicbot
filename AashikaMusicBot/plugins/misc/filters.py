@@ -131,12 +131,12 @@ async def stopall_callback(client, callback_query: CallbackQuery):
 
 
 
-@app.on_message(filters.command('stopfilter') & admin_filter)
+@app.on_message(filters.command('stop') & admin_filter)
 @user_admin
 async def stop(client, message):
     chat_id = message.chat.id
     if not (len(message.command) >= 2):
-        await message.reply('Use Help To Know The Command Usage')
+        await message.reply('What should i stop?')
         return
     
     filter_name = message.command[1]
