@@ -168,7 +168,7 @@ async def play_commnd(
             elif "https://youtu.be" in url:
                 videoid = url.split("/")[-1].split("?")[0]
                 details, track_id = await YouTube.track(f"https://www.youtube.com/watch?v={videoid}")
-                streamtype = "spotify"
+                streamtype = "youtube"
                 img = details["thumb"]
                 cap = _["play_11"].format(
                     details["title"],
@@ -180,14 +180,12 @@ async def play_commnd(
                 except Exception as e:
                     print(e)
                     return await mystic.edit_text(_["play_3"])
-                streamtype = "spotify"
+                streamtype = "youtube"
                 img = details["thumb"]
                 cap = _["play_11"].format(
                     details["title"],
                     details["duration_min"],
                                   )
-                                  
-                              
         elif await Spotify.valid(url):
             spotify = True
             if not config.SPOTIFY_CLIENT_ID and not config.SPOTIFY_CLIENT_SECRET:
@@ -199,7 +197,7 @@ async def play_commnd(
                     details, track_id = await Spotify.track(url)
                 except:
                     return await mystic.edit_text(_["play_3"])
-                streamtype = "spotify"
+                streamtype = "youtube"
                 img = details["thumb"]
                 cap = _["play_10"].format(details["title"], details["duration_min"])
             elif "playlist" in url:
@@ -237,7 +235,7 @@ async def play_commnd(
                     details, track_id = await Apple.track(url)
                 except:
                     return await mystic.edit_text(_["play_3"])
-                streamtype = "spotify"
+                streamtype = "youtube"
                 img = details["thumb"]
                 cap = _["play_10"].format(details["title"], details["duration_min"])
             elif "playlist" in url:
@@ -257,7 +255,7 @@ async def play_commnd(
                 details, track_id = await Resso.track(url)
             except:
                 return await mystic.edit_text(_["play_3"])
-            streamtype = "spotify"
+            streamtype = "youtube"
             img = details["thumb"]
             cap = _["play_10"].format(details["title"], details["duration_min"])
         elif await SoundCloud.valid(url):
@@ -335,7 +333,7 @@ async def play_commnd(
             details, track_id = await YouTube.track(query)
         except:
             return await mystic.edit_text(_["play_3"])
-        streamtype = "spotify"
+        streamtype = "youtube"
     if str(playmode) == "Direct":
         if not plist_type:
             if details["duration_min"]:
@@ -495,7 +493,7 @@ async def play_music(client, CallbackQuery, _):
             user_name,
             CallbackQuery.message.chat.id,
             video,
-            streamtype="spotify",
+            streamtype="youtube",
             forceplay=ffplay,
         )
     except Exception as e:
