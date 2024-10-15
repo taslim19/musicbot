@@ -51,7 +51,7 @@ async def executor(client: app, message: Message):
     await client.send_message(
         message.chat.id,
         "🔥",
-        reply_to_message_id=message.message_id
+             reply_to_message_id=message.id
     )
 
     t1 = time()
