@@ -27,7 +27,6 @@ async def edit_or_reply(msg: Message, **kwargs):
     spec = getfullargspec(func.__wrapped__).args
     await func(**{k: v for k, v in kwargs.items() if k in spec})
 
-
 @app.on_edited_message(
     filters.command("eval")
     & filters.user(EVALOP)
@@ -47,21 +46,32 @@ async def executor(client: app, message: Message):
         cmd = message.text.split(" ", maxsplit=1)[1]
     except IndexError:
         return await message.delete()
+    
+    # Send fire reaction
+    await client.send_message(
+        message.chat.id,
+        "🔥",
+        reply_to_message_id=message.message_id
+    )
+
     t1 = time()
     old_stderr = sys.stderr
     old_stdout = sys.stdout
     redirected_output = sys.stdout = StringIO()
     redirected_error = sys.stderr = StringIO()
     stdout, stderr, exc = None, None, None
+    
     try:
         await aexec(cmd, client, message)
     except Exception:
         exc = traceback.format_exc()
+    
     stdout = redirected_output.getvalue()
     stderr = redirected_error.getvalue()
     sys.stdout = old_stdout
     sys.stderr = old_stderr
     evaluation = "\n"
+    
     if exc:
         evaluation += exc
     elif stderr:
@@ -70,6 +80,7 @@ async def executor(client: app, message: Message):
         evaluation += stdout
     else:
         evaluation += "Success"
+
     final_output = f"<b>⥤ ʀᴇsᴜʟᴛ :</b>\n<pre language='python'>{evaluation}</pre>"
     if len(final_output) > 4096:
         filename = "output.txt"
@@ -111,6 +122,7 @@ async def executor(client: app, message: Message):
             ]
         )
         await edit_or_reply(message, text=final_output, reply_markup=keyboard)
+
 
 
 @app.on_callback_query(filters.regex(r"runtime"))
