@@ -48,10 +48,10 @@ async def executor(client: app, message: Message):
         return await message.delete()
     
     # Send fire reaction
-    await client.send_message(
-        message.chat.id,
-        "🔥",
-             reply_to_message_id=message.id
+    await client.send_reaction(
+        chat_id=message.chat.id,
+        message_id=message.id,
+        emoji="🔥"
     )
 
     t1 = time()
@@ -122,6 +122,7 @@ async def executor(client: app, message: Message):
             ]
         )
         await edit_or_reply(message, text=final_output, reply_markup=keyboard)
+
 
 
 
