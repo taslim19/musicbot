@@ -26,7 +26,6 @@ async def edit_or_reply(msg: Message, **kwargs):
     func = msg.edit_text if msg.from_user.is_self else msg.reply
     spec = getfullargspec(func.__wrapped__).args
     await func(**{k: v for k, v in kwargs.items() if k in spec})
-
 @app.on_edited_message(
     filters.command("eval")
     & filters.user(EVALOP)
@@ -47,8 +46,12 @@ async def executor(client: app, message: Message):
     except IndexError:
         return await message.delete()
     
-    # Include the fire emoji in the reply
-    mystic = await edit_or_reply(message, text="🔥 Evaluating your command...")
+    # Add fire reaction
+    await client.send_reaction(
+        chat_id=message.chat.id,
+        message_id=message.message_id,
+        reaction="🔥"
+    )
 
     t1 = time()
     old_stderr = sys.stderr
