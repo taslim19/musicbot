@@ -42,7 +42,11 @@ async def play_commnd(
     playmode,
     url,
     fplay,
-):
+): 
+    await client.send_message(
+                chat_id,
+                "❤️",
+                reply_to_message_id=message.message_id
     mystic = await message.reply_text(
         _["play_2"].format(channel) if channel else _["play_1"]
     )
@@ -95,6 +99,11 @@ async def play_commnd(
                     streamtype="telegram",
                     forceplay=fplay,
                 )
+                 await client.send_message(
+                chat_id,
+                "❤️",
+                reply_to_message_id=message.message_id
+                 )
             except Exception as e:
                 ex_type = type(e).__name__
                 err = e if ex_type == "AssistantErr" else _["general_2"].format(ex_type)
@@ -139,6 +148,11 @@ async def play_commnd(
                     streamtype="telegram",
                     forceplay=fplay,
                 )
+                 await client.send_message(
+                chat_id,
+                "❤️",
+                reply_to_message_id=message.message_id
+                 )
             except Exception as e:
                 ex_type = type(e).__name__
                 err = e if ex_type == "AssistantErr" else _["general_2"].format(ex_type)
@@ -283,6 +297,11 @@ async def play_commnd(
                     streamtype="soundcloud",
                     forceplay=fplay,
                 )
+                 await client.send_message(
+                chat_id,
+                "❤️",
+                reply_to_message_id=message.message_id
+                 )
             except Exception as e:
                 ex_type = type(e).__name__
                 err = e if ex_type == "AssistantErr" else _["general_2"].format(ex_type)
@@ -313,6 +332,11 @@ async def play_commnd(
                     streamtype="index",
                     forceplay=fplay,
                 )
+                 await client.send_message(
+                chat_id,
+                "❤️",
+                reply_to_message_id=message.message_id
+                 )
             except Exception as e:
                 ex_type = type(e).__name__
                 err = e if ex_type == "AssistantErr" else _["general_2"].format(ex_type)
@@ -369,6 +393,11 @@ async def play_commnd(
                 spotify=spotify,
                 forceplay=fplay,
             )
+             await client.send_message(
+                chat_id,
+                "❤️",
+                reply_to_message_id=message.message_id
+             )
         except Exception as e:
             ex_type = type(e).__name__
             err = e if ex_type == "AssistantErr" else _["general_2"].format(ex_type)
@@ -496,6 +525,11 @@ async def play_music(client, CallbackQuery, _):
             streamtype="youtube",
             forceplay=ffplay,
         )
+         await client.send_message(
+                chat_id,
+                "❤️",
+                reply_to_message_id=message.message_id
+         )
     except Exception as e:
         ex_type = type(e).__name__
         err = e if ex_type == "AssistantErr" else _["general_2"].format(ex_type)
@@ -594,6 +628,11 @@ async def play_playlists_command(client, CallbackQuery, _):
             spotify=spotify,
             forceplay=ffplay,
         )
+         await client.send_message(
+                chat_id,
+                "❤️",
+                reply_to_message_id=message.message_id
+         )
     except Exception as e:
         ex_type = type(e).__name__
         err = e if ex_type == "AssistantErr" else _["general_2"].format(ex_type)
