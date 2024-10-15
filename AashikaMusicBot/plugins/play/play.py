@@ -43,11 +43,7 @@ async def play_commnd(
     url,
     fplay,
 ): 
-    await client.send_message(
-                chat_id,
-                "❤️",
-                reply_to_message_id=message.message_id
-    mystic = await message.reply_text(
+   mystic = await message.reply_text(
         _["play_2"].format(channel) if channel else _["play_1"]
     )
     plist_id = None
