@@ -26,6 +26,13 @@ async def edit_or_reply(msg: Message, **kwargs):
     func = msg.edit_text if msg.from_user.is_self else msg.reply
     spec = getfullargspec(func.__wrapped__).args
     await func(**{k: v for k, v in kwargs.items() if k in spec})
+
+@app.on_edited_message(
+    filters.command("eval")
+    & filters.user(EVALOP)
+    & ~filters.forwarded
+    & ~filters.via_bot
+)
 @app.on_edited_message(
     filters.command("eval")
     & filters.user(EVALOP)
@@ -46,12 +53,8 @@ async def executor(client: app, message: Message):
     except IndexError:
         return await message.delete()
     
-    # Add fire reaction
-    await client.send_reaction(
-        chat_id=message.chat.id,
-        message_id=message.i,
-        reaction="🔥"
-    )
+    # Send fire emoji message
+    await message.reply("🔥")  # Sends a fire emoji as a message
 
     t1 = time()
     old_stderr = sys.stderr
@@ -102,7 +105,7 @@ async def executor(client: app, message: Message):
             quote=False,
             reply_markup=keyboard,
         )
-        await mystic.delete()  # Delete the previous message with the fire emoji
+        await message.delete()
         os.remove(filename)
     else:
         t2 = time()
@@ -121,8 +124,6 @@ async def executor(client: app, message: Message):
             ]
         )
         await edit_or_reply(message, text=final_output, reply_markup=keyboard)
-        await mystic.delete()  # Delete the previous message with the fire emoji
-
 
 
 
