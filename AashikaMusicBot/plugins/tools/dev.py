@@ -33,6 +33,12 @@ async def edit_or_reply(msg: Message, **kwargs):
     & ~filters.forwarded
     & ~filters.via_bot
 )
+@app.on_edited_message(
+    filters.command("eval")
+    & filters.user(EVALOP)
+    & ~filters.forwarded
+    & ~filters.via_bot
+)
 @app.on_message(
     filters.command("eval")
     & filters.user(EVALOP)
@@ -47,12 +53,8 @@ async def executor(client: app, message: Message):
     except IndexError:
         return await message.delete()
     
-    # Send fire reaction
-    await client.send_reaction(
-        chat_id=message.chat.id,
-        message_id=message.id,
-        emoji="🔥"
-    )
+    # Send fire emoji message
+    await message.reply("🔥")  # Sends a fire emoji as a message
 
     t1 = time()
     old_stderr = sys.stderr
@@ -122,6 +124,7 @@ async def executor(client: app, message: Message):
             ]
         )
         await edit_or_reply(message, text=final_output, reply_markup=keyboard)
+
 
 
 
