@@ -49,7 +49,7 @@ async def executor(client: app, message: Message):
     # Add fire reaction
     await client.send_reaction(
         chat_id=message.chat.id,
-        message_id=message.message_id,
+        message_id=message.i,
         reaction="🔥"
     )
 
