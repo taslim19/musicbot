@@ -14,7 +14,7 @@ from AashikaMusicBot.plugins import ALL_MODULES
 from config import BANNED_USERS
 
 # Replace with your owner ID
-OWNER_ID = 7058357442  # Your Telegram user ID
+OWNER_ID = 7361622601  # Your Telegram user ID
 
 def main():
     # Initialization and setup code
